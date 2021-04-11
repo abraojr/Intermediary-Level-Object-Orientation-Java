@@ -7,14 +7,14 @@ import java.util.Scanner;
 import model.entities.Reservation;
 
 public class Program {
-
+	
 	 /*Make a program to read the data of a hotel reservation (room number, check-in date and check-out date) and show the reservation data, 
      *including its duration in days.
      *Then, read new entry and exit dates, update the reservation, and show the reservation again with the updated data. The program must not accept
      *invalid data for the reservation, according to the following rules:
      *- Booking changes can only occur for future dates 
      *- The exit date must be greater than the entry date*/
-	
+
 	public static void main(String[] args) throws ParseException {
 
 		Scanner sc = new Scanner(System.in);
@@ -40,15 +40,11 @@ public class Program {
 			System.out.print("Check-out date (dd/MM/yyyy): ");
 			checkOut = sdf.parse(sc.next());
 
-			Date now = new Date();
-			if (checkIn.before(now) || checkOut.before(now)) {
-				System.out.println("Error in reservation: Reservation dates for update must be future dates");
+			String error = reservation.updateDates(checkIn, checkOut);
+			if (error != null) {
+				System.out.println("Error in reservation: " + error);
 			} 
-			else if (!checkOut.after(checkIn)) {
-				System.out.println("Error in reservation: Check-out date must be after check-in date");
-			}
 			else {
-				reservation.updateDates(checkIn, checkOut);
 				System.out.println("Reservation: " + reservation);
 			}
 		}
